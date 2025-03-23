@@ -177,23 +177,23 @@ function createImagePanels() {
 
 // Обработка клика по изображению
 function handleImageClick(panel, index) {
-    // В реальном приложении здесь будет логика проверки соответствия изображения текущей букве/слогу
-    // Для примера просто случайно определяем результат
-    const isCorrect = Math.random() > 0.5;
+//     // В реальном приложении здесь будет логика проверки соответствия изображения текущей букве/слогу
+//     // Для примера просто случайно определяем результат
+//     const isCorrect = Math.random() > 0.5;
     
-    panel.classList.add(isCorrect ? 'correct' : 'wrong');
+//     panel.classList.add(isCorrect ? 'correct' : 'wrong');
     
-    if (isCorrect) {
-        recordCorrectAnswer();
-    } else {
-        recordWrongAnswer();
-    }
+//     if (isCorrect) {
+//         recordCorrectAnswer();
+//     } else {
+//         recordWrongAnswer();
+//     }
     
-    // Убираем класс через некоторое время
-    setTimeout(() => {
-        panel.classList.remove('correct', 'wrong');
-        setNewTarget(); // Устанавливаем новую цель
-    }, 1000);
+//     // Убираем класс через некоторое время
+//     setTimeout(() => {
+//         panel.classList.remove('correct', 'wrong');
+//         setNewTarget(); // Устанавливаем новую цель
+//     }, 1000);
 }
 
 // Установка новой цели (буквы или слога)
