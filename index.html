@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прочитай букву</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Прочитай букву</h1>
+        
+        <div class="game-settings">
+            <div class="mode-selector">
+                <label>Режим игры:</label>
+                <div class="toggle-buttons">
+                    <button id="letters-mode" class="active">Буквы</button>
+                    <button id="pairs-mode">Пары</button>
+                </div>
+            </div>
+            
+            <div class="hide-images">
+                <label for="hide-images-toggle">Скрыть изображения:</label>
+                <input type="checkbox" id="hide-images-toggle">
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="current-target">
+                <h2>Прочитай: <span id="current-letter">А</span></h2>
+            </div>
+            
+            <div class="timer-container">
+                <div class="timer-bar">
+                    <div id="timer-progress"></div>
+                </div>
+                <div>
+                    <div class="timer-display" id="timer-display"></div>
+                </div>
+                <div class="timer-controls">
+                    <button id="start-timer">Старт</button>
+                    <button id="pause-timer">Пауза</button>
+                    <button id="reset-timer">Сброс</button>
+                </div>
+            </div>
+            
+            <div class="image-panels" id="image-container">
+                <!-- Изображения будут добавлены динамически -->
+            </div>
+            
+            <div class="answer-controls">
+                <button id="correct-answer" class="answer-btn correct">Правильно</button>
+                <button id="wrong-answer" class="answer-btn wrong">Неправильно</button>
+                <button id="reset-game" class="reset-btn">Сбросить игру</button>
+            </div>
+        </div>
+        
+        <div class="stats-panel">
+            <h3>Статистика</h3>
+            <div class="score-display">
+                <div class="score-item">
+                    <span>Правильно:</span>
+                    <span id="correct-count">0</span>
+                </div>
+                <div class="score-item">
+                    <span>Неправильно:</span>
+                    <span id="wrong-count">0</span>
+                </div>
+                <div class="score-item">
+                    <span>Всего правильных:</span>
+                    <span id="total-correct">0</span>
+                </div>
+            </div>
+            
+            <div class="detailed-stats" id="detailed-stats">
+                <!-- Детальная статистика будет добавлена динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
