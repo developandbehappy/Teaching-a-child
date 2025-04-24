@@ -48,6 +48,10 @@
             gap: 10px;
         }
 
+        .hide {
+            display: none;
+        }
+
         .toggle-buttons {
             display: flex;
             gap: 5px;
@@ -99,7 +103,8 @@
             margin-bottom: 20px;
         }
 
-        .timer-bar {
+        .timer-bar,
+        .count-bar {
             height: 20px;
             background-color: #ecf0f1;
             border-radius: 10px;
@@ -107,11 +112,12 @@
             margin-bottom: 10px;
         }
 
-        #timer-progress {
+        #timer-progress,
+        #count-progress {
             height: 100%;
             background-color: #2ecc71;
             width: 100%;
-            transition: width 1s linear;
+            transition: width 0.3s linear;
         }
 
         .timer-controls {
@@ -151,6 +157,16 @@
             margin-bottom: 16px;
             margin-top: 18px;
             font-size: 24px;
+        }
+
+        .letters-goal {
+            display: none;
+            align-items: center;
+            margin-left: 24px;
+        }
+
+        .letters-goal.active {
+            display: flex;
         }
 
         .image-panel {
@@ -316,6 +332,23 @@
                 gap: 10px;
             }
         }
+
+        #letters-progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        #letters-count {
+            text-align: left;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        .progress-container {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -332,6 +365,8 @@
                 </div>
             </div>
 
+
+
             <div class="hide-images">
                 <label for="hide-images-toggle">Скрыть изображения:</label>
                 <input type="checkbox" id="hide-images-toggle">
@@ -339,11 +374,23 @@
         </div>
 
         <div class="game-area">
+            <div class="mode-selector">
+                <label>Режим игры:</label>
+                <div class="toggle-buttons">
+                    <button id="time-mode" class="active">На время</button>
+                    <button id="count-mode">Определенное кол-во</button>
+                    <div class="mode-settings letters-goal" id="letters-limites">
+                        <label for="letters-limit">Количество букв:</label>
+                        <input type="number" id="letters-limit" min="5" max="100" value="30">
+                    </div>
+                </div>
+
+            </div>
             <div class="current-target">
                 <h2>Прочитай: <span id="current-letter">А</span></h2>
             </div>
 
-            <div class="timer-container">
+            <div class="timer-container" id="timer-container">
                 <div class="timer-bar">
                     <div id="timer-progress"></div>
                 </div>
@@ -356,6 +403,16 @@
                     <button id="reset-timer">Сброс</button>
                 </div>
             </div>
+
+            <div id="letters-progress-container" class="progress-container hide">
+                <div id="letters-count">0 / 30 букв</div>
+                <div class="count-bar">
+                    <div id="count-progress"></div>
+                </div>
+            </div>
+
+
+
 
             <div class="image-panels" id="image-container">
                 <!-- Изображения будут добавлены динамически -->
@@ -482,12 +539,54 @@
 
         // Текущая цель (буква или слог)
         let currentTarget = letters[0];
+        const lettersProgressContainer = document.getElementById('letters-progress-container');
+        const lettersProgress = document.getElementById('count-progress');
+        const lettersLimitInput = document.getElementById('letters-limit');
+        const lettersCount = document.getElementById('letters-count');
+
+
+        let lettersLimit = parseInt(lettersLimitInput.value);
+        let lettersLearned = 0;
+
+
+        lettersLimitInput.addEventListener('change', function () {
+            lettersLimit = parseInt(this.value);
+            updateLettersProgress();
+        });
+
+
+        function updateLettersProgress() {
+            const progressPercentage = (lettersLearned / lettersLimit) * 100;
+            lettersProgress.style.width = progressPercentage + '%';
+            lettersCount.textContent = lettersLearned + ' / ' + lettersLimit + ' букв';
+        }
 
         // Инициализация приложения
         document.addEventListener('DOMContentLoaded', function () {
+
+
             // Настройка переключателей режима игры
             document.getElementById('letters-mode').addEventListener('click', () => switchMode('letters'));
             document.getElementById('pairs-mode').addEventListener('click', () => switchMode('pairs'));
+
+
+            document.getElementById('time-mode').addEventListener('click', () => {
+                document.getElementById('time-mode').classList.toggle('active', true);
+                document.getElementById('count-mode').classList.toggle('active', false);
+
+                document.getElementById('letters-limites').classList.toggle('active', false);
+                document.getElementById('timer-container').classList.toggle('hide', false);
+                document.getElementById('letters-progress-container').classList.toggle('hide', true);
+            });
+
+            document.getElementById('count-mode').addEventListener('click', () => {
+                document.getElementById('time-mode').classList.toggle('active', false);
+                document.getElementById('count-mode').classList.toggle('active', true);
+
+                document.getElementById('letters-limites').classList.toggle('active', true);
+                document.getElementById('timer-container').classList.toggle('hide', true);
+                document.getElementById('letters-progress-container').classList.toggle('hide', false);
+            });
 
             // Переключатель скрытия изображений
             document.getElementById('hide-images-toggle').addEventListener('change', toggleHideImages);
@@ -513,6 +612,7 @@
             setNewTarget();
             createImagePanels();
             showTime();
+            updateLettersProgress();
         }
 
         // Переключение режима игры
@@ -602,12 +702,13 @@
         // Запись правильного ответа
         function recordCorrectAnswer() {
             statistics.correct++;
-
+            lettersLearned++;
             if (!statistics.details[currentTarget]) {
                 statistics.details[currentTarget] = { correct: 0, wrong: 0 };
             }
             statistics.details[currentTarget].correct++;
 
+            updateLettersProgress();
             updateStatisticsDisplay();
             setNewTarget();
             createImagePanels();
