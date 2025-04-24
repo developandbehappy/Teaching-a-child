@@ -3,9 +3,26 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" href="./icons/192.webp">
     <title>Прочитай букву</title>
     <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --bg-color: #f5f5f5;
+            --panel-bg: #ecf0f1;
+            --text-color: #333;
+            --header-color: #2c3e50;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --spacing: 20px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,149 +31,103 @@
         }
 
         body {
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: var(--spacing);
         }
 
-        h1 {
+        /* Типография */
+        h1,
+        h3 {
             text-align: center;
-            margin-bottom: 20px;
-            color: #2c3e50;
+            color: var(--header-color);
         }
 
-        /* Настройки игры */
-        .game-settings {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #ecf0f1;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .mode-selector,
-        .hide-images {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        h3 {
+            margin-bottom: 15px;
         }
 
         .hide {
             display: none;
         }
 
+        /* Общие компоненты */
+        .panel {
+            background-color: white;
+            padding: var(--spacing);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: var(--spacing);
+        }
+
+        /* Кнопки */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: #ddd;
+        }
+
+        .btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
         .toggle-buttons {
             display: flex;
             gap: 5px;
+            flex-wrap: wrap;
         }
 
-        .toggle-buttons button {
-            padding: 8px 16px;
-            background-color: #ddd;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .toggle-buttons button.active {
-            background-color: #3498db;
-            color: white;
-        }
-
-        /* Область игры */
-        .game-area {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .current-target {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .current-target h2 {
-            font-size: 24px;
-        }
-
-        #current-letter {
-            display: inline-block;
-            padding: 5px 15px;
-            background-color: #e74c3c;
-            color: white;
-            border-radius: 4px;
-            font-size: 28px;
-        }
-
-        /* Таймер */
-        .timer-container {
-            margin-bottom: 20px;
-        }
-
-        .timer-bar,
-        .count-bar {
-            height: 20px;
-            background-color: #ecf0f1;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        #timer-progress,
-        #count-progress {
-            height: 100%;
-            background-color: #2ecc71;
-            width: 100%;
-            transition: width 0.3s linear;
-        }
-
-        .timer-controls {
+        /* Настройки игры */
+        .game-settings {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .timer-controls button {
-            padding: 8px 16px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .timer-controls button:hover {
-            background-color: #2980b9;
-        }
-
-        /* Панели с изображениями */
-        .image-panels {
-            /* display: grid;
-    grid-template-columns: repeat(3, 1fr); */
+            justify-content: space-between;
+            align-items: flex-start;
+            background-color: var(--panel-bg);
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: var(--spacing);
+            flex-wrap: wrap;
             gap: 15px;
-            display: flex;
-            margin-bottom: 20px;
-            align-items: center;
-            justify-content: center;
-
         }
 
-        .timer-display {
-            text-align: center;
-            margin-bottom: 16px;
-            margin-top: 18px;
-            font-size: 24px;
+        .mode-selector {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .hide-images {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            align-self: flex-start;
+        }
+
+        .word-length-selector {
+            width: 100%;
+            margin: 10px 0 5px;
         }
 
         .letters-goal {
@@ -169,10 +140,60 @@
             display: flex;
         }
 
+        /* Таймер и прогресс */
+        .timer-container,
+        .progress-container {
+            margin-bottom: var(--spacing);
+        }
+
+        .timer-bar,
+        .count-bar {
+            height: 20px;
+            background-color: var(--panel-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        #timer-progress,
+        #count-progress {
+            height: 100%;
+            background-color: var(--success-color);
+            width: 100%;
+            transition: width 0.3s linear;
+        }
+
+        .timer-display {
+            text-align: center;
+            margin: 18px 0 16px;
+            font-size: 24px;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #letters-count {
+            text-align: left;
+            margin: 6px 0;
+        }
+
+        /* Область с изображениями */
+        .image-panels {
+            display: flex;
+            gap: 15px;
+            margin-bottom: var(--spacing);
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .image-panel {
             height: 150px;
             background-color: #f1f1f1;
-            border-radius: 8px;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -190,7 +211,7 @@
             width: 100px;
             height: 130px;
             transition: all 0.5s ease-in;
-            background: url("https://pay.enchantedworld.io/alpa.png");
+            background: url("./images/alpa.webp");
         }
 
         .image-panel.hidden div {
@@ -206,20 +227,41 @@
 
         .image-panel.correct {
             background-color: rgba(46, 204, 113, 0.2);
-            border: 2px solid #2ecc71;
+            border: 2px solid var(--success-color);
         }
 
         .image-panel.wrong {
             background-color: rgba(231, 76, 60, 0.2);
-            border: 2px solid #e74c3c;
+            border: 2px solid var(--error-color);
         }
 
-        /* Контроль ответов */
+        /* Текущая буква и цель */
+        .current-target {
+            text-align: center;
+            margin-bottom: var(--spacing);
+            margin-top: var(--spacing);
+        }
+
+        .current-target h2 {
+            font-size: 24px;
+        }
+
+        #current-letter {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: var(--error-color);
+            color: white;
+            border-radius: 4px;
+            font-size: 28px;
+            margin-left: 5px;
+        }
+
+        /* Кнопки ответов */
         .answer-controls {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: var(--spacing);
         }
 
         .answer-btn {
@@ -229,16 +271,15 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .answer-btn.correct {
-            background-color: #2ecc71;
+            background-color: var(--success-color);
             color: white;
         }
 
         .answer-btn.wrong {
-            background-color: #e74c3c;
+            background-color: var(--error-color);
             color: white;
         }
 
@@ -250,7 +291,6 @@
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .reset-btn:hover {
@@ -260,21 +300,16 @@
         /* Статистика */
         .stats-panel {
             background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-panel h3 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: #2c3e50;
+            padding: var(--spacing);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: var(--spacing);
         }
 
         .score-display {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 20px;
+            margin-bottom: var(--spacing);
         }
 
         .score-item {
@@ -287,8 +322,10 @@
         }
 
         .detailed-stats {
-            border-top: 1px solid #ecf0f1;
+            border-top: 1px solid var(--panel-bg);
             padding-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .letter-stat {
@@ -304,68 +341,131 @@
             background-color: #f1f1f1;
         }
 
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing, 20px);
+            position: relative;
+            width: 100%;
+        }
+
+        .toggle-settings-btn {
+            position: absolute;
+            right: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--primary-color, #3498db);
+            padding: 5px;
+            z-index: 10;
+        }
+
+        .toggle-settings-btn:hover {
+            color: var(--primary-dark, #2980b9);
+        }
+
+        .settings-collapsed {
+            display: none;
+        }
+
+
         /* Адаптивность */
         @media (max-width: 768px) {
             .game-settings {
                 flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
+                align-items: stretch;
             }
 
-            .image-panels {
+            .mode-selector,
+            .hide-images {
+                width: 100%;
+            }
+
+            .game-area {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toggle-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .toggle-buttons button {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .word-length-selector .toggle-buttons {
+                display: grid;
                 grid-template-columns: repeat(2, 1fr);
             }
 
             .answer-controls {
                 flex-direction: column;
-                align-items: center;
             }
 
             .answer-btn,
             .reset-btn {
                 width: 100%;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
             }
 
-            .score-display {
-                flex-direction: column;
-                gap: 10px;
+            .image-panels {
+                display: flex;
+                gap: 15px;
+                margin-bottom: var(--spacing);
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
             }
-        }
 
-        #letters-progress {
-            height: 100%;
-            background-color: #3498db;
-            width: 0%;
-            transition: width 0.3s;
-        }
+            .image-panel {
+                height: 130px;
+            }
 
-        #letters-count {
-            text-align: left;
-            margin-top: 6px;
-            margin-bottom: 6px;
-        }
-
-        .progress-container {
-            margin-top: 10px;
+            .image-word {
+                width: 80px;
+                height: 110px;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Прочитай букву</h1>
+        <div class="header-container">
+            <h1>Учим алфавит</h1>
+            <button id="toggle-settings-btn" class="toggle-settings-btn" title="Скрыть/показать настройки">
+                ⚙️
+            </button>
+        </div>
 
-        <div class="game-settings">
+        <div id="game-settings-1" class="game-settings panel">
             <div class="mode-selector">
                 <label>Режим игры:</label>
-                <div class="toggle-buttons">
-                    <button id="letters-mode" class="active">Буквы</button>
-                    <button id="pairs-mode">Пары</button>
+                <div>
+                    <div class="toggle-buttons">
+                        <button id="letters-mode" class="btn btn-secondary active">Буквы</button>
+                        <button id="pairs-mode" class="btn btn-secondary">Пары</button>
+                        <button id="words-mode" class="btn btn-secondary">Слова</button>
+                        <button id="alphabet-mode" class="btn btn-secondary">Алфавит</button>
+
+                    </div>
+                    <div id="word-length-selector" class="word-length-selector" style="display: none;">
+                        <label>Длина слов:</label>
+                        <div class="toggle-buttons">
+                            <button id="words3-length" class="btn btn-secondary active">3 буквы</button>
+                            <button id="words4-length" class="btn btn-secondary">4 буквы</button>
+                            <button id="words5-length" class="btn btn-secondary">5 букв</button>
+                            <button id="words6-length" class="btn btn-secondary">6 букв</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
 
             <div class="hide-images">
                 <label for="hide-images-toggle">Скрыть изображения:</label>
@@ -373,34 +473,34 @@
             </div>
         </div>
 
-        <div class="game-area">
-            <div class="mode-selector">
+        <div class="game-area panel">
+            <div id="game-settings-2" class="mode-selector">
                 <label>Режим игры:</label>
-                <div class="toggle-buttons">
-                    <button id="time-mode" class="active">На время</button>
-                    <button id="count-mode">Определенное кол-во</button>
+                <div class="toggle-buttons" style="display: flex;justify-content: space-between;width: 100%;">
+                    <div>
+                        <button id="time-mode" class="btn btn-secondary active">На время</button>
+                        <button id="count-mode" class="btn btn-secondary">Определенное кол-во</button>
+                    </div>
                     <div class="mode-settings letters-goal" id="letters-limites">
                         <label for="letters-limit">Количество букв:</label>
-                        <input type="number" id="letters-limit" min="5" max="100" value="30">
+                        <input type="number" id="letters-limit" min="5" max="500" value="30">
                     </div>
                 </div>
-
             </div>
+
             <div class="current-target">
-                <h2>Прочитай: <span id="current-letter">А</span></h2>
+                <h2><span id="current-letter">А</span></h2>
             </div>
 
             <div class="timer-container" id="timer-container">
                 <div class="timer-bar">
                     <div id="timer-progress"></div>
                 </div>
-                <div>
-                    <div class="timer-display" id="timer-display"></div>
-                </div>
+                <div class="timer-display" id="timer-display"></div>
                 <div class="timer-controls">
-                    <button id="start-timer">Старт</button>
-                    <button id="pause-timer">Пауза</button>
-                    <button id="reset-timer">Сброс</button>
+                    <button id="start-timer" class="btn btn-primary">Старт</button>
+                    <button id="pause-timer" class="btn btn-secondary">Пауза</button>
+                    <button id="reset-timer" class="btn btn-secondary">Сброс</button>
                 </div>
             </div>
 
@@ -410,9 +510,6 @@
                     <div id="count-progress"></div>
                 </div>
             </div>
-
-
-
 
             <div class="image-panels" id="image-container">
                 <!-- Изображения будут добавлены динамически -->
@@ -425,7 +522,7 @@
             </div>
         </div>
 
-        <div class="stats-panel">
+        <div class="stats-panel panel">
             <h3>Статистика</h3>
             <div class="score-display">
                 <div class="score-item">
@@ -442,150 +539,194 @@
                 </div>
             </div>
 
-            <div class="detailed-stats" id="detailed-stats">
-                <!-- Детальная статистика будет добавлена динамически -->
-            </div>
+            <div class="detailed-stats" id="detailed-stats"></div>
         </div>
     </div>
 
     <script>
-        // Глобальные переменные
-        let gameMode = 'letters'; // 'letters' или 'pairs'
+        const CONFIG = {
+            // Наборы букв и слогов
+            letters: ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'],
+            pairs: [
+                "ба", "ва", "га", "да", "жа", "за", "ка", "ла", "ма", "на",
+                "па", "ра", "са", "та", "фа", "ха", "ца", "ча", "ша", "ща",
+
+                "бо", "во", "го", "до", "жо", "зо", "ко", "ло", "мо", "но",
+                "по", "ро", "со", "то", "фо", "хо", "цо", "чо", "шо", "що",
+
+                "бе", "ве", "ге", "де", "же", "зе", "ке", "ле", "ме", "не",
+                "пе", "ре", "се", "те", "фе", "хе", "це", "че", "ше", "ще",
+
+                "би", "ви", "ги", "ди", "жи", "зи", "ки", "ли", "ми", "ни",
+                "пи", "ри", "си", "ти", "фи", "хи", "ци", "чи", "ши", "щи",
+
+                "бу", "ву", "гу", "ду", "жу", "зу", "ку", "лу", "му", "ну",
+                "пу", "ру", "су", "ту", "фу", "ху", "цу", "чу", "шу", "щу",
+
+                "бы", "вы", "гы", "ды", "жы", "зы", "кы", "лы", "мы", "ны",
+                "пы", "ры", "сы", "ты", "фы", "хы", "цы", "чы", "шы", "щы",
+
+                "бэ", "вэ", "гэ", "дэ", "жэ", "зэ", "кэ", "лэ", "мэ", "нэ",
+                "пэ", "рэ", "сэ", "тэ", "фэ", "хэ", "цэ", "чэ", "шэ", "щэ",
+
+                "бю", "вю", "гю", "дю", "жю", "зю", "кю", "лю", "мю", "ню",
+                "пю", "рю", "сю", "тю", "фю", "хю", "цю", "чю", "шю", "щю",
+
+                "бя", "вя", "гя", "дя", "жя", "зя", "кя", "ля", "мя", "ня",
+                "пя", "ря", "ся", "тя", "фя", "хя", "ця", "чя", "шя", "щя",
+
+                "бь", "вь", "гь", "дь", "жь", "зь", "кь", "ль", "мь", "нь",
+                "пь", "рь", "сь", "ть", "фь", "хь", "ць", "чь", "шь", "щь",
+
+                "бъ", "въ", "гъ", "дъ", "жъ", "зъ", "къ", "лъ", "мъ", "нъ",
+                "пъ", "ръ", "съ", "тъ", "фъ", "хъ", "цъ", "чъ", "шъ", "щъ"
+            ],
+            words3: [
+                "дом", "кот", "сок", "рот", "нос", "лес", "пол", "сыр", "мир", "суп",
+                "мяч", "рак", "сын", "шар", "мел", "бык", "дым", "лук", "мех", "зуб",
+                "час", "жук", "бег", "мак", "сад", "шум", "пар", "лед", "кит", "год",
+                "мёд", "сон", "век", "зал", "рис", "бор", "пух", "май", "лев", "куб",
+                "эхо", "оса", "ток", "шаг", "том", "фен", "тир", "пир", "щит", "боб"
+            ],
+            words4: [
+                "стол", "окно", "река", "рука", "нога", "снег", "хлеб", "лист", "мама", "папа",
+                "дети", "лиса", "волк", "кино", "небо", "гора", "море", "дерево", "книга", "рыба",
+                "утро", "лето", "зима", "весна", "пища", "день", "ночь", "друг", "игра", "цвет",
+                "метр", "луна", "тень", "дочь", "брат", "обед", "буря", "поле", "печь", "роза",
+                "пена", "язык", "стул", "плащ", "сила", "трус", "куст", "плод", "база", "клад"
+            ],
+            words5: [
+                "школа", "ручка", "карта", "щенок", "зайка", "кошка", "месяц", "ложка", "вилка", "тарелка",
+                "медведь", "звезда", "слива", "яблоко", "ветер", "облако", "доска", "птица", "рыбак", "груша",
+                "стена", "песок", "фильм", "пирог", "комар", "сосна", "кабан", "овраг", "земля", "цифра",
+                "шкаф", "ягода", "конь", "город", "плита", "метель", "сумка", "дверь", "палец", "ветка",
+                "вечер", "жираф", "арбуз", "дождь", "олень", "сахар", "ковёр", "поезд", "почта", "тропа"
+            ],
+            words6: [
+                "собака", "корова", "машина", "бабочка", "солнце", "облако", "деревня", "ребенок", "комната", "одежда",
+                "пальто", "ботинок", "тетрадь", "учитель", "яблоня", "персик", "ананас", "картина", "дорога", "молоко",
+                "колесо", "варежка", "мебель", "телефон", "камень", "голова", "письмо", "дружба", "аптека", "лампа",
+                "журнал", "клубок", "коньки", "музыка", "огород", "погода", "работа", "сапоги", "стакан", "тарелка",
+                "футбол", "чашка", "шкатулка", "яблоня", "компот", "семена", "глобус", "корабль", "барабан", "посуда"
+            ],
+            linksImage: {
+                "а": "0 0",
+                "б": "-120px 0",
+                "в": "-240px 0",
+                "г": "-340px 0",
+                "д": "-460px 0",
+                "е": "-580px 0",
+                "ё": "-700px 0",
+                "ж": "-795px 0",
+                "з": "-5px -130px",
+                "и": "-115px -130px",
+                "й": "-225px -380px",
+                "к": "-235px -130px",
+                "л": "555px -130px",
+                "м": "-455px -130px",
+                "н": "335px -130px",
+                "о": "225px -130px",
+                "п": "105px -130px",
+                "р": "-5px -250px",
+                "с": "-115px -250px",
+                "т": "-225px -250px",
+                "у": "-335px -250px",
+                "ф": "-455px -250px",
+                "х": "-325px -380px",
+                "ц": "-425px -380px",
+                "ч": "-555px -250px",
+                "ш": "-665px -250px",
+                "щ": "-525px -380px",
+                "ъ": "-705px -383px",
+                "ы": "-785px -383px",
+                "ь": "-620px -383px",
+                "э": "-785px -263px",
+                "ю": "-5px -375px",
+                "я": "-115px -375px"
+            },
+            timerDuration: 60 * 30 // 30 минут в секундах
+        };
+
+        // Состояние приложения
+        let gameMode = 'letters'; // 'letters', 'pairs' или 'words'
+        let wordLength = 3; // Длина слов (3, 4, 5 или 6 букв)
         let hideImages = false;
         let timerInterval;
-        let timerDuration = 60 * 30; // Время в секундах
+        let timerDuration = CONFIG.timerDuration;
         let timeLeft = timerDuration;
         let isTimerRunning = false;
         let statistics = {
             correct: 0,
             wrong: 0,
-            details: {} // Детальная статистика по буквам/слогам
+            details: {} // Детальная статистика по буквам/слогам/словам
         };
-
-        let linksImage = {
-            "а": "0 0",
-            "б": "-120px 0",
-            "в": "-240px 0",
-            "г": "-340px 0",
-            "д": "-460px 0",
-            "е": "-580px 0",
-            "ё": "-700px 0",
-            "ж": "-795px 0",
-            "з": "-5px -130px",
-            "и": "-115px -130px",
-            "й": "-225px -380px",
-            "к": "-235px -130px",
-            "л": "555px -130px",
-            "м": "-455px -130px",
-            "н": "335px -130px",
-            "о": "225px -130px",
-            "п": "105px -130px",
-            "р": "-5px -250px",
-            "с": "-115px -250px",
-            "т": "-225px -250px",
-            "у": "-335px -250px",
-            "ф": "-455px -250px",
-            "х": "-325px -380px",
-            "ц": "-425px -380px",
-            "ч": "-555px -250px",
-            "ш": "-665px -250px",
-            "щ": "-525px -380px",
-            "ъ": "-705px -383px",
-            "ы": "-785px -383px",
-            "ь": "-620px -383px",
-            "э": "-785px -263px",
-            "ю": "-5px -375px",
-            "я": "-115px -375px"
-        };
-
-        // Наборы букв и слогов
-        const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'];
-        const pairs = [
-            "ба", "ва", "га", "да", "жа", "за", "ка", "ла", "ма", "на",
-            "па", "ра", "са", "та", "фа", "ха", "ца", "ча", "ша", "ща",
-
-            "бо", "во", "го", "до", "жо", "зо", "ко", "ло", "мо", "но",
-            "по", "ро", "со", "то", "фо", "хо", "цо", "чо", "шо", "що",
-
-            "бе", "ве", "ге", "де", "же", "зе", "ке", "ле", "ме", "не",
-            "пе", "ре", "се", "те", "фе", "хе", "це", "че", "ше", "ще",
-
-            "би", "ви", "ги", "ди", "жи", "зи", "ки", "ли", "ми", "ни",
-            "пи", "ри", "си", "ти", "фи", "хи", "ци", "чи", "ши", "щи",
-
-            "бу", "ву", "гу", "ду", "жу", "зу", "ку", "лу", "му", "ну",
-            "пу", "ру", "су", "ту", "фу", "ху", "цу", "чу", "шу", "щу",
-
-            "бы", "вы", "гы", "ды", "жы", "зы", "кы", "лы", "мы", "ны",
-            "пы", "ры", "сы", "ты", "фы", "хы", "цы", "чы", "шы", "щы",
-
-            "бэ", "вэ", "гэ", "дэ", "жэ", "зэ", "кэ", "лэ", "мэ", "нэ",
-            "пэ", "рэ", "сэ", "тэ", "фэ", "хэ", "цэ", "чэ", "шэ", "щэ",
-
-            "бю", "вю", "гю", "дю", "жю", "зю", "кю", "лю", "мю", "ню",
-            "пю", "рю", "сю", "тю", "фю", "хю", "цю", "чю", "шю", "щю",
-
-            "бя", "вя", "гя", "дя", "жя", "зя", "кя", "ля", "мя", "ня",
-            "пя", "ря", "ся", "тя", "фя", "хя", "ця", "чя", "шя", "щя",
-
-            // Новые слоги с "ь"
-            "бь", "вь", "гь", "дь", "жь", "зь", "кь", "ль", "мь", "нь",
-            "пь", "рь", "сь", "ть", "фь", "хь", "ць", "чь", "шь", "щь",
-
-            // Новые слоги с "ъ"
-            "бъ", "въ", "гъ", "дъ", "жъ", "зъ", "къ", "лъ", "мъ", "нъ",
-            "пъ", "ръ", "съ", "тъ", "фъ", "хъ", "цъ", "чъ", "шъ", "щъ"
-        ];
-
-        // Текущая цель (буква или слог)
-        let currentTarget = letters[0];
-        const lettersProgressContainer = document.getElementById('letters-progress-container');
-        const lettersProgress = document.getElementById('count-progress');
-        const lettersLimitInput = document.getElementById('letters-limit');
-        const lettersCount = document.getElementById('letters-count');
-
-
-        let lettersLimit = parseInt(lettersLimitInput.value);
+        let currentTarget = CONFIG.letters[0];
+        let lettersLimit = 30;
         let lettersLearned = 0;
-
-
-        lettersLimitInput.addEventListener('change', function () {
-            lettersLimit = parseInt(this.value);
-            updateLettersProgress();
-        });
-
-
-        function updateLettersProgress() {
-            const progressPercentage = (lettersLearned / lettersLimit) * 100;
-            lettersProgress.style.width = progressPercentage + '%';
-            lettersCount.textContent = lettersLearned + ' / ' + lettersLimit + ' букв';
-        }
+        let isCountMode = false;
 
         // Инициализация приложения
         document.addEventListener('DOMContentLoaded', function () {
+            // Инициализация элементов интерфейса
+            const lettersLimitInput = document.getElementById('letters-limit');
+            const lettersProgressContainer = document.getElementById('letters-progress-container');
+            const toggleSettingsBtn = document.getElementById('toggle-settings-btn');
+            const gameSettings1 = document.getElementById('game-settings-1');
+            const gameSettings2 = document.getElementById('game-settings-2');
 
+            lettersLimit = parseInt(lettersLimitInput.value) || 30;
+
+
+            toggleSettingsBtn.addEventListener('click', function () {
+                gameSettings1.classList.toggle('settings-collapsed');
+                gameSettings2.classList.toggle('settings-collapsed');
+
+                // Меняем иконку в зависимости от состояния
+                if (gameSettings1.classList.contains('settings-collapsed')) {
+                    toggleSettingsBtn.textContent = '👁️‍🗨️';
+                    toggleSettingsBtn.title = 'Показать настройки';
+                } else {
+                    toggleSettingsBtn.textContent = '⚙️';
+                    toggleSettingsBtn.title = 'Скрыть настройки';
+                }
+            });
 
             // Настройка переключателей режима игры
             document.getElementById('letters-mode').addEventListener('click', () => switchMode('letters'));
             document.getElementById('pairs-mode').addEventListener('click', () => switchMode('pairs'));
+            document.getElementById('words-mode').addEventListener('click', () => switchMode('words'));
+            document.getElementById('alphabet-mode').addEventListener('click', () => switchMode('alphabet'));
+
+            // Настройка переключателей длины слов
+            document.getElementById('words3-length').addEventListener('click', () => switchWordLength(3));
+            document.getElementById('words4-length').addEventListener('click', () => switchWordLength(4));
+            document.getElementById('words5-length').addEventListener('click', () => switchWordLength(5));
+            document.getElementById('words6-length').addEventListener('click', () => switchWordLength(6));
 
 
+            // Настройка переключателей режима таймера/счетчика
             document.getElementById('time-mode').addEventListener('click', () => {
-                document.getElementById('time-mode').classList.toggle('active', true);
-                document.getElementById('count-mode').classList.toggle('active', false);
-
-                document.getElementById('letters-limites').classList.toggle('active', false);
-                document.getElementById('timer-container').classList.toggle('hide', false);
-                document.getElementById('letters-progress-container').classList.toggle('hide', true);
+                isCountMode = false;
+                document.getElementById('time-mode').classList.add('active');
+                document.getElementById('count-mode').classList.remove('active');
+                document.getElementById('letters-limites').classList.remove('active');
+                document.getElementById('timer-container').classList.remove('hide');
+                document.getElementById('letters-progress-container').classList.add('hide');
             });
 
             document.getElementById('count-mode').addEventListener('click', () => {
-                document.getElementById('time-mode').classList.toggle('active', false);
-                document.getElementById('count-mode').classList.toggle('active', true);
+                isCountMode = true;
+                document.getElementById('time-mode').classList.remove('active');
+                document.getElementById('count-mode').classList.add('active');
+                document.getElementById('letters-limites').classList.add('active');
+                document.getElementById('timer-container').classList.add('hide');
+                document.getElementById('letters-progress-container').classList.remove('hide');
+            });
 
-                document.getElementById('letters-limites').classList.toggle('active', true);
-                document.getElementById('timer-container').classList.toggle('hide', true);
-                document.getElementById('letters-progress-container').classList.toggle('hide', false);
+            // Настройка ввода лимита букв
+            lettersLimitInput.addEventListener('change', function () {
+                lettersLimit = parseInt(this.value) || 30;
+                updateLettersProgress();
             });
 
             // Переключатель скрытия изображений
@@ -615,15 +756,90 @@
             updateLettersProgress();
         }
 
-        // Переключение режима игры
+        // Переключение режима игры (буквы/пары)
         function switchMode(mode) {
             gameMode = mode;
 
             // Обновление визуального состояния кнопок
+            document.getElementById('alphabet-mode').classList.toggle('active', mode === 'alphabet');
             document.getElementById('letters-mode').classList.toggle('active', mode === 'letters');
             document.getElementById('pairs-mode').classList.toggle('active', mode === 'pairs');
+            document.getElementById('words-mode').classList.toggle('active', mode === 'words');
 
-            // Сброс игры при смене режима
+            // Показать или скрыть селектор длины слов
+            const wordLengthSelector = document.getElementById('word-length-selector');
+            wordLengthSelector.style.display = mode === 'words' ? 'block' : 'none';
+
+            // Управление отображением блоков для режима "Алфавит"
+            const currentTargetBlock = document.querySelector('.current-target');
+            const gameSettings2Block = document.getElementById('game-settings-2');
+            const answerControlsBlock = document.querySelector('.answer-controls');
+            const timerContainer = document.getElementById('timer-container');
+            const lettersProgressContainer = document.getElementById('letters-progress-container');
+
+            if (mode === 'alphabet') {
+                // Скрываем блоки для режима "Алфавит"
+                currentTargetBlock.style.display = 'none';
+                gameSettings2Block.style.display = 'none';
+                answerControlsBlock.style.display = 'none';
+                timerContainer.style.display = 'none';
+                lettersProgressContainer.style.display = 'none';
+                // Отображаем все буквы алфавита
+                createAlphabetPanels();
+            } else {
+                // Возвращаем видимость блоков для других режимов
+                currentTargetBlock.style.display = '';
+                gameSettings2Block.style.display = '';
+                answerControlsBlock.style.display = '';
+                timerContainer.style.display = '';
+                lettersProgressContainer.style.display = '';
+
+
+                createImagePanels();
+            }
+
+            resetGame();
+        }
+
+        function createAlphabetPanels() {
+            const container = document.getElementById('image-container');
+            container.innerHTML = '';
+
+            // Создаем панель для каждой буквы алфавита
+            CONFIG.letters.forEach(letter => {
+                const currentChar = letter.toLowerCase();
+
+                const panel = document.createElement('div');
+                panel.className = 'image-panel';
+                panel.classList.toggle('hidden', hideImages);
+
+                const img = document.createElement('div');
+                img.className = 'image-word';
+                img.style.background = `url("./images/alpa.webp")`;
+
+                if (CONFIG.linksImage[currentChar]) {
+                    img.style.backgroundPosition = CONFIG.linksImage[currentChar];
+                }
+
+                panel.appendChild(img);
+                container.appendChild(panel);
+
+                // Обработчик клика для воспроизведения звука буквы
+                panel.addEventListener('click', () => playLetterSound(currentChar));
+            });
+        }
+
+
+        // Переключение длины слов
+        function switchWordLength(length) {
+            wordLength = length;
+
+            // Обновление визуального состояния кнопок
+            document.getElementById('words3-length').classList.toggle('active', length === 3);
+            document.getElementById('words4-length').classList.toggle('active', length === 4);
+            document.getElementById('words5-length').classList.toggle('active', length === 5);
+            document.getElementById('words6-length').classList.toggle('active', length === 6);
+
             resetGame();
         }
 
@@ -641,14 +857,14 @@
         // Создание панелей с изображениями
         function createImagePanels() {
             const container = document.getElementById('image-container');
-            const currentLetter = document.getElementById('current-letter');
-
+            const currentLetterElement = document.getElementById('current-letter');
+            const currentLetter = currentLetterElement.textContent.replace(/-/g, ''); // Убираем дефисы из текущей буквы
 
             container.innerHTML = '';
 
-            // Создаем 6 панелей для изображений
-            for (let i = 0; i < currentLetter.textContent.length; i++) {
-                const currentWord = currentLetter.textContent[i].toLowerCase();
+            // Создаем панели для каждой буквы в текущей цели
+            for (let i = 0; i < currentLetter.length; i++) {
+                const currentChar = currentLetter[i].toLowerCase();
 
                 const panel = document.createElement('div');
                 panel.className = 'image-panel';
@@ -656,53 +872,122 @@
 
                 const img = document.createElement('div');
                 img.className = 'image-word';
-                // Здесь для примера используем плейсхолдер, в реальном приложении будут настоящие изображения
-                img.style.background = `https://pay.enchantedworld.io/alpa.png`;
-                img.style.backgroundPosition = linksImage[currentWord];
+                img.style.background = `url("./images/alpa.webp")`;
 
+                if (CONFIG.linksImage[currentChar]) {
+                    img.style.backgroundPosition = CONFIG.linksImage[currentChar];
+                }
 
                 panel.appendChild(img);
                 container.appendChild(panel);
 
-                // Добавление обработчика клика по изображению
+                // Обработчик клика по изображению
                 panel.addEventListener('click', () => handleImageClick(panel, i));
             }
         }
 
         // Обработка клика по изображению
         function handleImageClick(panel, index) {
-            //     // В реальном приложении здесь будет логика проверки соответствия изображения текущей букве/слогу
-            //     // Для примера просто случайно определяем результат
-            //     const isCorrect = Math.random() > 0.5;
+            // В будущем здесь может быть логика обработки клика
+        }
 
-            //     panel.classList.add(isCorrect ? 'correct' : 'wrong');
+        // Функция для обработки клика по изображению
+        function handleImageClick(panel, index) {
+            const currentLetterElement = document.getElementById('current-letter');
+            const currentLetter = currentLetterElement.textContent.replace(/-/g, '');
 
-            //     if (isCorrect) {
-            //         recordCorrectAnswer();
-            //     } else {
-            //         recordWrongAnswer();
-            //     }
+            // Буква для воспроизведения (с учетом индекса в слове/слоге)
+            const letterToPlay = currentLetter[index]?.toLowerCase() || '';
 
-            //     // Убираем класс через некоторое время
-            //     setTimeout(() => {
-            //         panel.classList.remove('correct', 'wrong');
-            //         setNewTarget(); // Устанавливаем новую цель
-            //     }, 1000);
+            if (letterToPlay) {
+                playLetterSound(letterToPlay);
+            }
+        }
+
+        // Функция для воспроизведения звука буквы
+        function playLetterSound(letter) {
+            // Предзагрузка аудио для iOS Safari
+            let audioElement;
+
+            // Получаем или создаем аудио элемент
+            if (!window.audioCache) {
+                window.audioCache = {};
+            }
+
+            if (!window.audioCache[letter]) {
+                audioElement = new Audio();
+
+                // URL для аудиофайла (предполагается формат mp3)
+                const audioUrl = `./alp-child-audio/${letter}.m4a`;
+
+                // Проверка поддержки разных форматов
+                if (audioElement.canPlayType('audio/mpeg')) {
+                    audioElement.src = audioUrl;
+                } else if (audioElement.canPlayType('audio/ogg')) {
+                    audioElement.src = `https://example.com/sounds/${letter}.ogg`;
+                } else {
+                    audioElement.src = audioUrl; // Используем mp3 как запасной вариант
+                }
+
+                // Кэшируем созданный элемент
+                window.audioCache[letter] = audioElement;
+
+                // Предзагрузка для iOS Safari
+                audioElement.load();
+            } else {
+                audioElement = window.audioCache[letter];
+            }
+
+            // Сбрасываем время воспроизведения для повторного проигрывания
+            audioElement.currentTime = 0;
+
+            // Обработка ошибок воспроизведения
+            const playPromise = audioElement.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.error('Ошибка воспроизведения аудио:', error);
+
+                    // Пробуем воспроизвести звук после взаимодействия пользователя (для iOS)
+                    const resumeAudio = function () {
+                        audioElement.play();
+                        document.removeEventListener('touchstart', resumeAudio);
+                    };
+                    document.addEventListener('touchstart', resumeAudio, { once: true });
+                });
+            }
         }
 
         // Установка новой цели (буквы или слога)
         function setNewTarget() {
-            const targets = gameMode === 'letters' ? letters : pairs;
+            let targets;
+
+            if (gameMode === 'letters') {
+                targets = CONFIG.letters;
+            } else if (gameMode === 'pairs') {
+                targets = CONFIG.pairs;
+            } else if (gameMode === 'words') {
+                // Выбираем список слов соответствующей длины
+                switch (wordLength) {
+                    case 3: targets = CONFIG.words3; break;
+                    case 4: targets = CONFIG.words4; break;
+                    case 5: targets = CONFIG.words5; break;
+                    case 6: targets = CONFIG.words6; break;
+                    default: targets = CONFIG.words3;
+                }
+            }
+
             const randomIndex = Math.floor(Math.random() * targets.length);
             currentTarget = targets[randomIndex];
 
-            document.getElementById('current-letter').textContent = currentTarget;
+            document.getElementById('current-letter').textContent = splitIntoSyllables(currentTarget).join('-');
         }
 
         // Запись правильного ответа
         function recordCorrectAnswer() {
             statistics.correct++;
             lettersLearned++;
+
             if (!statistics.details[currentTarget]) {
                 statistics.details[currentTarget] = { correct: 0, wrong: 0 };
             }
@@ -710,6 +995,14 @@
 
             updateLettersProgress();
             updateStatisticsDisplay();
+
+            // Проверка на достижение лимита букв в режиме счета
+            if (isCountMode && lettersLearned >= lettersLimit) {
+                alert(`Поздравляем! Вы выучили ${lettersLimit} букв!`);
+                resetGame();
+                return;
+            }
+
             setNewTarget();
             createImagePanels();
         }
@@ -742,11 +1035,18 @@
                 const statItem = document.createElement('div');
                 statItem.className = 'letter-stat';
                 statItem.innerHTML = `
-            <span>${target}</span>
-            <span>Правильно: ${stats.correct}, Неправильно: ${stats.wrong}</span>
-        `;
+                <span>${target}</span>
+                <span>Правильно: ${stats.correct}, Неправильно: ${stats.wrong}</span>
+            `;
                 detailedStats.appendChild(statItem);
             }
+        }
+
+        // Обновление прогресса букв
+        function updateLettersProgress() {
+            const progressPercentage = (lettersLearned / lettersLimit) * 100;
+            document.getElementById('count-progress').style.width = progressPercentage + '%';
+            document.getElementById('letters-count').textContent = lettersLearned + ' / ' + lettersLimit + ' букв';
         }
 
         // Сброс статистики
@@ -756,6 +1056,7 @@
                 wrong: 0,
                 details: {}
             };
+            lettersLearned = 0;
         }
 
         // Запуск таймера
@@ -793,14 +1094,16 @@
                 // Время вышло
                 pauseTimer();
                 alert('Время вышло! Игра завершена.');
+                resetGame();
             }
         }
 
+        // Отображение времени
         function showTime() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
-            document.getElementById('timer-display').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
+            document.getElementById('timer-display').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
         // Сброс таймера
@@ -810,16 +1113,116 @@
             document.getElementById('timer-progress').style.width = '100%';
             document.getElementById('timer-progress').style.backgroundColor = '#2ecc71';
             showTime();
-
         }
+
+        function splitIntoSyllables(word) {
+            // Проверка на пустую строку или не-строку
+            if (!word || typeof word !== 'string') {
+                return [];
+            }
+
+            // Приводим к нижнему регистру и удаляем пробелы
+            word = word.toLowerCase().trim();
+
+            // Проверка на однобуквенное слово
+            if (word.length === 1) {
+                return [word];
+            }
+
+            // Гласные буквы русского языка
+            const vowels = 'аеёиоуыэюя';
+
+            // Находим все гласные в слове
+            const vowelPositions = [];
+            for (let i = 0; i < word.length; i++) {
+                if (vowels.includes(word[i])) {
+                    vowelPositions.push(i);
+                }
+            }
+
+            // Если гласных нет или только одна гласная, возвращаем слово как один слог
+            if (vowelPositions.length <= 1) {
+                return [word];
+            }
+
+            // Сонорные согласные (непарные звонкие)
+            const sonors = 'йлмнр';
+
+            // Результат - массив слогов
+            const syllables = [];
+            let startPos = 0;
+
+            // Обработка слогов
+            for (let i = 0; i < vowelPositions.length - 1; i++) {
+                const vowelPos = vowelPositions[i];
+                const nextVowelPos = vowelPositions[i + 1];
+
+                // Определяем границу слога
+                let endPos = vowelPos + 1; // По умолчанию граница сразу после гласной
+
+                // Проверяем, есть ли согласные между гласными
+                if (nextVowelPos - vowelPos > 1) {
+                    // Количество согласных между гласными
+                    const consonantsCount = nextVowelPos - vowelPos - 1;
+
+                    // Применяем правила слогоделения
+                    if (consonantsCount === 1) {
+                        // Одна согласная между гласными - относится к следующему слогу
+                        endPos = vowelPos + 1;
+                    } else if (consonantsCount === 2) {
+                        // Две согласные между гласными
+                        // Проверяем, является ли первая согласная сонорной
+                        if (sonors.includes(word[vowelPos + 1])) {
+                            // Если первая согласная сонорная, а вторая шумная, граница между ними
+                            endPos = vowelPos + 2;
+                        } else {
+                            // Иначе обе согласные отходят к следующему слогу
+                            endPos = vowelPos + 1;
+                        }
+                    } else if (consonantsCount >= 3) {
+                        // При трех и более согласных между гласными
+                        // Обычно первые согласные отходят к предыдущему слогу, а последняя к следующему
+                        endPos = nextVowelPos - 1;
+                    }
+                }
+
+                // Добавляем слог
+                syllables.push(word.substring(startPos, endPos));
+                startPos = endPos;
+            }
+
+            // Добавляем последний слог
+            syllables.push(word.substring(startPos));
+
+            return syllables;
+        }
+
 
         // Сброс игры
         function resetGame() {
             resetTimer();
             resetStatistics();
             updateStatisticsDisplay();
-            setNewTarget();
-            createImagePanels();
+
+            if (gameMode === 'alphabet') {
+                createAlphabetPanels();
+            } else {
+                setNewTarget();
+                createImagePanels();
+            }
+
+            updateLettersProgress();
+        }
+    </script>
+
+    <script>
+        // Регистрация Service Worker для PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('Service Worker зарегистрирован:', reg))
+                    .catch(err => console.log('Ошибка регистрации Service Worker:', err));
+            });
         }
     </script>
 </body>
