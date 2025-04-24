@@ -133,7 +133,7 @@
         .letters-goal {
             display: none;
             align-items: center;
-            margin-left: 24px;
+            justify-content: space-between;
         }
 
         .letters-goal.active {
@@ -447,7 +447,7 @@
         <div id="game-settings-1" class="game-settings panel">
             <div class="mode-selector">
                 <label>Режим игры:</label>
-                <div>
+                <div style="width: 100%;">
                     <div class="toggle-buttons">
                         <button id="letters-mode" class="btn btn-secondary active">Буквы</button>
                         <button id="pairs-mode" class="btn btn-secondary">Пары</button>
@@ -483,7 +483,7 @@
                     </div>
                     <div class="mode-settings letters-goal" id="letters-limites">
                         <label for="letters-limit">Количество букв:</label>
-                        <input type="number" id="letters-limit" min="5" max="500" value="30">
+                        <input type="number" id="letters-limit" style="width: 50px" min="5" max="500" value="30">
                     </div>
                 </div>
             </div>
