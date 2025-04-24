@@ -1,7 +1,7 @@
 {
-    "name": "Приложение для медитации",
-    "short_name": "Медитации",
-    "description": "Приложение для медитации",
+    "name": "Приложение для азбуки",
+    "short_name": "Учим азбуку",
+    "description": "Приложение для ребенка",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ffffff",
