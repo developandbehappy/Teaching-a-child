@@ -246,7 +246,6 @@
         /* Область с изображениями */
         .image-panels {
             display: flex;
-            gap: 15px;
             margin-bottom: var(--spacing);
             align-items: center;
             justify-content: center;
@@ -257,7 +256,6 @@
             height: 160px;
             width: 120px;
             background-color: #f8f9fa;
-            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -265,7 +263,35 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s;
+            border-top: 2px solid #e5e5e5;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .image-panel:first-child {
+            border-top-left-radius: var(--radius);
+            border-bottom-left-radius: var(--radius);
+            border-left: 2px solid #e5e5e5;
+        }
+
+        .image-panel:last-child {
+            border-top-right-radius: var(--radius);
+            border-bottom-right-radius: var(--radius);
+            border-right: 2px solid #e5e5e5;
+        }
+
+        /* Случай, когда элемент один (одновременно первый и последний) */
+        .image-panel:first-child:last-child {
             border: 2px solid #e5e5e5;
+        }
+
+        /* Убираем правую границу у элементов, которые не последние */
+        .image-panel:not(:last-child) {
+            border-right: none;
+        }
+
+        /* Убираем левую границу у элементов, которые не первые */
+        .image-panel:not(:first-child) {
+            border-left: none;
         }
 
         .image-panel:hover {
@@ -623,14 +649,6 @@
                 margin-bottom: 10px;
             }
 
-            .image-panels {
-                gap: 10px;
-            }
-
-            .image-panel {
-                height: 130px;
-                width: 100px;
-            }
 
             #current-letter {
                 font-size: 28px;
