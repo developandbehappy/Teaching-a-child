@@ -553,9 +553,8 @@
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 22px;
             color: var(--primary-color);
-            padding: 5px;
             z-index: 10;
             transition: transform 0.3s;
         }
@@ -632,6 +631,9 @@
         }
 
         @media (max-width: 480px) {
+            .header-container {
+                justify-content: space-between;
+            }
             .toggle-buttons {
                 flex-direction: column;
                 width: 100%;
