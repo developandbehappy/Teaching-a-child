@@ -552,7 +552,7 @@
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 28px;
+            font-size: 16px;
             color: var(--primary-color);
             padding: 5px;
             z-index: 10;
@@ -720,8 +720,8 @@
     <div class="container">
         <div class="header-container">
             <h1>Учим алфавит</h1>
-            <button id="toggle-settings-btn" class="toggle-settings-btn" title="Скрыть/показать настройки">
-                👁️‍🗨️
+            <button id="toggle-settings-btn" class="toggle-settings-btn">
+                Скрыть режим игры
             </button>
         </div>
 
@@ -962,11 +962,11 @@
 
                 // Меняем иконку в зависимости от состояния
                 if (gameSettings1.classList.contains('settings-collapsed')) {
-                    toggleSettingsBtn.textContent = '⚙️';
-                    toggleSettingsBtn.title = 'Показать настройки';
+                    // toggleSettingsBtn.textContent = '⚙️';
+                    toggleSettingsBtn.textContent = 'Выбрать режим игры';
                 } else {
-                    toggleSettingsBtn.textContent = '👁️‍🗨️';
-                    toggleSettingsBtn.title = 'Скрыть настройки';
+                    toggleSettingsBtn.textContent = 'Скрыть режим игры';
+                    // toggleSettingsBtn.title = 'Скрыть настройки';
                 }
             });
 
