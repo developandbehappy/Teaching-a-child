@@ -270,6 +270,7 @@
         .image-panels.alpabet {
             gap: 14px;
         }
+
         .image-panels.alpabet .image-panel {
             border: 2px solid #e5e5e5;
             border-radius: var(--radius);
@@ -721,7 +722,7 @@
         <div class="header-container">
             <h1>Учим алфавит</h1>
             <button id="toggle-settings-btn" class="toggle-settings-btn">
-                Скрыть режим игры
+                Скрыть ⚙️
             </button>
         </div>
 
@@ -962,11 +963,11 @@
 
                 // Меняем иконку в зависимости от состояния
                 if (gameSettings1.classList.contains('settings-collapsed')) {
-                    // toggleSettingsBtn.textContent = '⚙️';
-                    toggleSettingsBtn.textContent = 'Выбрать режим игры';
+
+                    toggleSettingsBtn.textContent = 'Показать ⚙️';
                 } else {
-                    toggleSettingsBtn.textContent = 'Скрыть режим игры';
-                    // toggleSettingsBtn.title = 'Скрыть настройки';
+                    toggleSettingsBtn.textContent = 'Скрыть ⚙️';
+
                 }
             });
 
