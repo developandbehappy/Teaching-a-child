@@ -267,6 +267,14 @@
             border-bottom: 2px solid #e5e5e5;
         }
 
+        .image-panels.alpabet {
+            gap: 14px;
+        }
+        .image-panels.alpabet .image-panel {
+            border: 2px solid #e5e5e5;
+            border-radius: var(--radius);
+        }
+
         .image-panel:first-child {
             border-top-left-radius: var(--radius);
             border-bottom-left-radius: var(--radius);
@@ -1071,7 +1079,7 @@
         function createAlphabetPanels() {
             const container = document.getElementById('image-container');
             container.innerHTML = '';
-
+            container.classList.add("alpabet");
             // Создаем панель для каждой буквы алфавита
             CONFIG.letters.forEach(letter => {
                 const currentChar = letter.toLowerCase();
@@ -1126,6 +1134,7 @@
             const container = document.getElementById('image-container');
             const currentLetterElement = document.getElementById('current-letter');
             const currentLetter = currentLetterElement.textContent.replace(/-/g, ''); // Убираем дефисы из текущей буквы
+            container.classList.remove("alpabet");
 
             container.innerHTML = '';
 
