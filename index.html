@@ -10,29 +10,33 @@
     <title>Прочитай букву</title>
     <style>
         :root {
-            --primary-color: #3498db;
-            --primary-dark: #2980b9;
-            --success-color: #2ecc71;
-            --error-color: #e74c3c;
-            --bg-color: #f5f5f5;
-            --panel-bg: #ecf0f1;
-            --text-color: #333;
-            --header-color: #2c3e50;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            --radius: 8px;
+            --primary-color: #4a86e8;
+            --primary-dark: #3a76d8;
+            --primary-light: #c9daf8;
+            --success-color: #34c759;
+            --error-color: #ff3b30;
+            --warning-color: #ff9500;
+            --bg-color: #f8f9fa;
+            --panel-bg: #ffffff;
+            --text-color: #333333;
+            --header-color: #1f3a60;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
             --spacing: 20px;
+            --font-family: 'Arial Rounded MT Bold', 'Segoe UI', 'Arial', sans-serif;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: var(--font-family);
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
+            line-height: 1.5;
         }
 
         .container {
@@ -46,10 +50,16 @@
         h3 {
             text-align: center;
             color: var(--header-color);
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
         }
 
         h3 {
-            margin-bottom: 15px;
+            font-size: 22px;
         }
 
         .hide {
@@ -63,15 +73,21 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             margin-bottom: var(--spacing);
+            border: 1px solid var(--primary-light);
         }
 
         /* Кнопки */
         .btn {
-            padding: 8px 16px;
+            padding: 10px 18px;
             border: none;
-            border-radius: 4px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -81,20 +97,27 @@
 
         .btn-primary:hover {
             background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background-color: #ddd;
+            background-color: #f1f1f1;
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e5e5e5;
         }
 
         .btn.active {
             background-color: var(--primary-color);
             color: white;
+            box-shadow: 0 2px 8px rgba(74, 134, 232, 0.4);
         }
 
         .toggle-buttons {
             display: flex;
-            gap: 5px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
@@ -104,40 +127,73 @@
             justify-content: space-between;
             align-items: flex-start;
             background-color: var(--panel-bg);
-            padding: 15px;
+            padding: 20px;
             border-radius: var(--radius);
             margin-bottom: var(--spacing);
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
+            border: 1px solid var(--primary-light);
         }
 
         .mode-selector {
             display: flex;
             align-items: flex-start;
-            gap: 10px;
+            gap: 15px;
             flex-direction: column;
+            width: 100%;
+        }
+
+        .mode-selector label {
+            font-weight: 600;
+            color: var(--header-color);
+            font-size: 18px;
         }
 
         .hide-images {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             align-self: flex-start;
+        }
+
+        .hide-images label {
+            font-weight: 600;
+            color: var(--header-color);
         }
 
         .word-length-selector {
             width: 100%;
-            margin: 10px 0 5px;
+            margin: 15px 0 10px;
+        }
+
+        .word-length-selector label {
+            font-weight: 600;
+            color: var(--header-color);
+            display: block;
+            margin-bottom: 10px;
         }
 
         .letters-goal {
             display: none;
             align-items: center;
             justify-content: space-between;
+            gap: 15px;
         }
 
         .letters-goal.active {
             display: flex;
+        }
+
+        .letters-goal label {
+            font-weight: 600;
+            color: var(--header-color);
+        }
+
+        .letters-goal input {
+            padding: 8px 12px;
+            border: 2px solid var(--primary-light);
+            border-radius: 8px;
+            font-size: 16px;
         }
 
         /* Таймер и прогресс */
@@ -148,11 +204,12 @@
 
         .timer-bar,
         .count-bar {
-            height: 20px;
-            background-color: var(--panel-bg);
-            border-radius: 10px;
+            height: 24px;
+            background-color: #f1f1f1;
+            border-radius: 12px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #e5e5e5;
         }
 
         #timer-progress,
@@ -161,29 +218,35 @@
             background-color: var(--success-color);
             width: 100%;
             transition: width 0.3s linear;
+            border-radius: 12px;
         }
 
         .timer-display {
             text-align: center;
-            margin: 18px 0 16px;
-            font-size: 24px;
+            margin: 20px 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--header-color);
         }
 
         .timer-controls {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         #letters-count {
             text-align: left;
-            margin: 6px 0;
+            margin: 10px 0;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--header-color);
         }
 
         /* Область с изображениями */
         .image-panels {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: var(--spacing);
             align-items: center;
             justify-content: center;
@@ -191,8 +254,9 @@
         }
 
         .image-panel {
-            height: 150px;
-            background-color: #f1f1f1;
+            height: 160px;
+            width: 120px;
+            background-color: #f8f9fa;
             border-radius: var(--radius);
             display: flex;
             align-items: center;
@@ -200,11 +264,17 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            border: 2px solid #e5e5e5;
         }
 
         .image-panel:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-panel:active {
+            transform: translateY(0);
         }
 
         .image-word {
@@ -221,56 +291,111 @@
         .image-panel.hidden::before {
             content: "?";
             position: absolute;
-            font-size: 48px;
+            font-size: 54px;
             color: #7f8c8d;
+            font-weight: bold;
         }
 
         .image-panel.correct {
-            background-color: rgba(46, 204, 113, 0.2);
+            background-color: rgba(52, 199, 89, 0.15);
             border: 2px solid var(--success-color);
+            animation: correctPulse 1s;
         }
 
         .image-panel.wrong {
-            background-color: rgba(231, 76, 60, 0.2);
+            background-color: rgba(255, 59, 48, 0.15);
             border: 2px solid var(--error-color);
+            animation: wrongShake 0.5s;
+        }
+
+        @keyframes correctPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes wrongShake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
         }
 
         /* Текущая буква и цель */
         .current-target {
             text-align: center;
-            margin-bottom: var(--spacing);
-            margin-top: var(--spacing);
+            margin-bottom: 30px;
+            margin-top: 30px;
         }
 
         .current-target h2 {
-            font-size: 24px;
+            font-size: 28px;
+            color: var(--header-color);
         }
 
         #current-letter {
             display: inline-block;
-            padding: 5px 15px;
-            background-color: var(--error-color);
+            padding: 12px 24px;
+            background-color: var(--primary-color);
             color: white;
-            border-radius: 4px;
-            font-size: 28px;
-            margin-left: 5px;
+            border-radius: 12px;
+            font-size: 36px;
+            margin-left: 10px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(74, 134, 232, 0.3);
+            text-transform: uppercase;
+            margin-top: 10px;
         }
 
         /* Кнопки ответов */
         .answer-controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: var(--spacing);
+            gap: 20px;
+            margin-top: 30px;
         }
 
         .answer-btn {
-            padding: 10px 20px;
+            padding: 15px 25px;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .answer-btn:active {
+            transform: translateY(0);
         }
 
         .answer-btn.correct {
@@ -284,17 +409,26 @@
         }
 
         .reset-btn {
-            padding: 10px 20px;
-            background-color: #95a5a6;
+            padding: 15px 25px;
+            background-color: #8e8e93;
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s;
+            min-width: 150px;
         }
 
         .reset-btn:hover {
-            background-color: #7f8c8d;
+            background-color: #7d7d82;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .reset-btn:active {
+            transform: translateY(0);
         }
 
         /* Статистика */
@@ -304,48 +438,72 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             margin-top: var(--spacing);
+            border: 1px solid var(--primary-light);
         }
 
         .score-display {
             display: flex;
             justify-content: space-around;
             margin-bottom: var(--spacing);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .score-item {
             text-align: center;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 12px;
+            min-width: 200px;
+            border: 1px solid #e5e5e5;
         }
 
         .score-item span:first-child {
             font-weight: bold;
             margin-right: 5px;
+            display: block;
+            margin-bottom: 5px;
+            color: var(--header-color);
+        }
+
+        .score-item span:last-child {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
         .detailed-stats {
-            border-top: 1px solid var(--panel-bg);
-            padding-top: 15px;
-            max-height: 200px;
+            border-top: 1px solid #e5e5e5;
+            padding-top: 20px;
+            max-height: 250px;
             overflow-y: auto;
         }
 
         .letter-stat {
             display: flex;
             justify-content: space-between;
-            padding: 5px 10px;
-            margin-bottom: 5px;
-            border-radius: 4px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
             background-color: #f9f9f9;
         }
 
         .letter-stat:nth-child(even) {
-            background-color: #f1f1f1;
+            background-color: #f0f0f0;
         }
 
+        .letter-stat span:first-child {
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--header-color);
+        }
+
+        /* Шапка с настройками */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: var(--spacing, 20px);
+            margin-bottom: 25px;
             position: relative;
             width: 100%;
         }
@@ -356,20 +514,57 @@
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 24px;
-            color: var(--primary-color, #3498db);
+            font-size: 28px;
+            color: var(--primary-color);
             padding: 5px;
             z-index: 10;
+            transition: transform 0.3s;
         }
 
         .toggle-settings-btn:hover {
-            color: var(--primary-dark, #2980b9);
+            color: var(--primary-dark);
+            transform: scale(1.1);
         }
 
         .settings-collapsed {
             display: none;
         }
 
+        /* Настройки игры - часть 2 */
+        .mode-settings-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        /* Чекбокс стилизация */
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: "✓";
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+        }
 
         /* Адаптивность */
         @media (max-width: 768px) {
@@ -384,7 +579,16 @@
             }
 
             .game-area {
-                padding: 10px;
+                padding: 15px;
+            }
+
+            .score-display {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .score-item {
+                width: 100%;
             }
         }
 
@@ -402,6 +606,11 @@
             .word-length-selector .toggle-buttons {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .word-length-selector .toggle-buttons button {
+                margin-bottom: 0;
             }
 
             .answer-controls {
@@ -411,22 +620,31 @@
             .answer-btn,
             .reset-btn {
                 width: 100%;
-                margin-bottom: 5px;
+                margin-bottom: 10px;
             }
 
             .image-panels {
-                display: flex;
-                gap: 15px;
-                margin-bottom: var(--spacing);
-                align-items: center;
-                justify-content: center;
-                flex-wrap: wrap;
+                gap: 10px;
             }
 
             .image-panel {
                 height: 130px;
+                width: 100px;
             }
 
+            #current-letter {
+                font-size: 28px;
+                padding: 10px 18px;
+            }
+
+            .timer-controls {
+                flex-wrap: wrap;
+            }
+
+            .timer-controls .btn {
+                flex: 1;
+                min-width: 100px;
+            }
         }
     </style>
 
@@ -480,15 +698,14 @@
         <div id="game-settings-1" class="game-settings panel">
             <div class="mode-selector">
                 <label>Режим игры:</label>
-                <div style="width: 100%;">
+                <div class="toggle-buttons-container">
                     <div class="toggle-buttons">
                         <button id="letters-mode" class="btn btn-secondary active">Буквы</button>
                         <button id="pairs-mode" class="btn btn-secondary">Пары</button>
                         <button id="words-mode" class="btn btn-secondary">Слова</button>
                         <button id="alphabet-mode" class="btn btn-secondary">Алфавит</button>
-
                     </div>
-                    <div id="word-length-selector" class="word-length-selector" style="display: none;">
+                    <div id="word-length-selector" class="word-length-selector hide">
                         <label>Длина слов:</label>
                         <div class="toggle-buttons">
                             <button id="words3-length" class="btn btn-secondary active">3 буквы</button>
@@ -509,14 +726,14 @@
         <div class="game-area panel">
             <div id="game-settings-2" class="mode-selector">
                 <label>Режим игры:</label>
-                <div class="toggle-buttons" style="display: flex;justify-content: space-between;width: 100%;">
-                    <div>
+                <div class="mode-settings-container">
+                    <div class="toggle-buttons">
                         <button id="time-mode" class="btn btn-secondary active">На время</button>
                         <button id="count-mode" class="btn btn-secondary">Определенное кол-во</button>
                     </div>
-                    <div class="mode-settings letters-goal" id="letters-limites">
+                    <div class="letters-goal" id="letters-limites">
                         <label for="letters-limit">Количество букв:</label>
-                        <input type="number" id="letters-limit" style="width: 50px" min="5" max="500" value="30">
+                        <input type="number" id="letters-limit" min="5" max="500" value="30">
                     </div>
                 </div>
             </div>
