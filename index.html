@@ -196,6 +196,14 @@
             font-size: 16px;
         }
 
+        input[type="number"] {
+            padding: 8px 12px;
+            border: 2px solid var(--primary-light);
+            border-radius: 8px;
+            font-size: 16px;
+            width: 70px;
+        }
+
         /* Таймер и прогресс */
         .timer-container,
         .progress-container {
@@ -634,6 +642,7 @@
             .header-container {
                 justify-content: space-between;
             }
+
             .toggle-buttons {
                 flex-direction: column;
                 width: 100%;
@@ -767,6 +776,10 @@
                     <div class="letters-goal" id="letters-limites">
                         <label for="letters-limit">Количество букв:</label>
                         <input type="number" id="letters-limit" min="5" max="500" value="30">
+                    </div>
+                    <div class="letters-goal active" id="time-limits">
+                        <label for="time-limit">Время занятия (мин):</label>
+                        <input type="number" id="time-limit" min="1" max="120" value="30">
                     </div>
                 </div>
             </div>
@@ -951,6 +964,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Инициализация элементов интерфейса
             const lettersLimitInput = document.getElementById('letters-limit');
+            const timeLimitInput = document.getElementById('time-limit');
             const lettersProgressContainer = document.getElementById('letters-progress-container');
             const toggleSettingsBtn = document.getElementById('toggle-settings-btn');
             const gameSettings1 = document.getElementById('game-settings-1');
@@ -958,6 +972,17 @@
 
             lettersLimit = parseInt(lettersLimitInput.value) || 30;
 
+            // Установка начальной продолжительности таймера из поля ввода
+            const initialTimeLimit = parseInt(timeLimitInput.value) || 30;
+            timerDuration = initialTimeLimit * 60; // Перевод минут в секунды
+            timeLeft = timerDuration;
+
+            // Обработчик изменения времени
+            timeLimitInput.addEventListener('change', function () {
+                const newTimeLimit = parseInt(this.value) || 30;
+                timerDuration = newTimeLimit * 60; // Перевод минут в секунды
+                resetTimer();
+            });
 
             toggleSettingsBtn.addEventListener('click', function () {
                 gameSettings1.classList.toggle('settings-collapsed');
@@ -993,7 +1018,10 @@
                 document.getElementById('count-mode').classList.remove('active');
                 document.getElementById('letters-limites').classList.remove('active');
                 document.getElementById('timer-container').classList.remove('hide');
+                document.getElementById('time-limits').classList.add('active');
                 document.getElementById('letters-progress-container').classList.add('hide');
+                resetTimer();
+                updateLettersProgress();
             });
 
             document.getElementById('count-mode').addEventListener('click', () => {
@@ -1002,7 +1030,11 @@
                 document.getElementById('count-mode').classList.add('active');
                 document.getElementById('letters-limites').classList.add('active');
                 document.getElementById('timer-container').classList.add('hide');
+                document.getElementById('time-limits').classList.remove('active');
                 document.getElementById('letters-progress-container').classList.remove('hide');
+                lettersLearned = 0;
+                resetTimer();
+                updateLettersProgress();
             });
 
             // Настройка ввода лимита букв
@@ -1264,7 +1296,7 @@
         // Запись правильного ответа
         function recordCorrectAnswer() {
             statistics.correct++;
-            lettersLearned++;
+            if (isCountMode) lettersLearned++;
 
             if (!statistics.details[currentTarget]) {
                 statistics.details[currentTarget] = { correct: 0, wrong: 0 };
@@ -1276,7 +1308,7 @@
 
             // Проверка на достижение лимита букв в режиме счета
             if (isCountMode && lettersLearned >= lettersLimit) {
-                alert(`Поздравляем! Вы выучили ${lettersLimit} букв!`);
+                alert(`Отлично поработали, теперь можно отдохнуть`);
                 resetGame();
                 return;
             }
