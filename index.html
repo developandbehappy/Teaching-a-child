@@ -149,14 +149,16 @@
             font-size: 18px;
         }
 
-        .hide-images {
+        .hide-images,
+        .mute-sounds {
             display: flex;
             align-items: center;
             gap: 15px;
             align-self: flex-start;
         }
 
-        .hide-images label {
+        .hide-images label,
+        .mute-sounds label {
             font-weight: 600;
             color: var(--header-color);
         }
@@ -616,12 +618,18 @@
         @media (max-width: 768px) {
             .game-settings {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: flex-start;
             }
 
             .mode-selector,
             .hide-images {
                 width: 100%;
+            }
+
+            .hide-images,
+            .mute-sounds {
+                margin-bottom: 10px;
+                width: auto;
             }
 
             .game-area {
@@ -635,6 +643,23 @@
 
             .score-item {
                 width: 100%;
+            }
+
+            .mode-settings-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                width: 100%;
+            }
+
+            .mode-settings-container .toggle-buttons {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .mode-settings-container .letters-goal {
+                width: 100%;
+                justify-content: space-between;
             }
         }
 
@@ -651,6 +676,12 @@
             .toggle-buttons button {
                 width: 100%;
                 margin-bottom: 5px;
+            }
+
+            .hide-images,
+            .mute-sounds {
+                width: 100%;
+                justify-content: space-between;
             }
 
             .word-length-selector .toggle-buttons {
@@ -686,6 +717,24 @@
             .timer-controls .btn {
                 flex: 1;
                 min-width: 100px;
+            }
+
+            .mode-settings-container {
+                padding: 0;
+            }
+
+            .mode-settings-container .letters-goal label {
+                font-size: 14px;
+                flex: 1;
+            }
+
+            .mode-settings-container .letters-goal input {
+                width: 60px;
+            }
+
+            #game-settings-2 label {
+                margin-bottom: 10px;
+                display: block;
             }
         }
     </style>
@@ -762,6 +811,10 @@
             <div class="hide-images">
                 <label for="hide-images-toggle">Скрыть изображения:</label>
                 <input type="checkbox" id="hide-images-toggle">
+            </div>
+            <div class="mute-sounds">
+                <label for="mute-sounds-toggle">Отключить звук:</label>
+                <input type="checkbox" id="mute-sounds-toggle">
             </div>
         </div>
 
@@ -950,6 +1003,7 @@
         let timerDuration = CONFIG.timerDuration;
         let timeLeft = timerDuration;
         let isTimerRunning = false;
+        let muteSounds = false;
         let statistics = {
             correct: 0,
             wrong: 0,
@@ -1010,7 +1064,6 @@
             document.getElementById('words5-length').addEventListener('click', () => switchWordLength(5));
             document.getElementById('words6-length').addEventListener('click', () => switchWordLength(6));
 
-
             // Настройка переключателей режима таймера/счетчика
             document.getElementById('time-mode').addEventListener('click', () => {
                 isCountMode = false;
@@ -1043,8 +1096,13 @@
                 updateLettersProgress();
             });
 
+
             // Переключатель скрытия изображений
             document.getElementById('hide-images-toggle').addEventListener('change', toggleHideImages);
+            document.getElementById('mute-sounds-toggle').addEventListener('change', function () {
+                muteSounds = this.checked;
+            });
+
 
             // Кнопки таймера
             document.getElementById('start-timer').addEventListener('click', startTimer);
@@ -1216,6 +1274,7 @@
 
         // Функция для воспроизведения звука буквы
         function playLetterSound(letter) {
+            if (muteSounds) return;
             // Предзагрузка аудио для iOS Safari
             let audioElement;
 
