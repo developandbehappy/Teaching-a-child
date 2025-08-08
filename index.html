@@ -1267,6 +1267,7 @@
 
             // Обновление отображения изображений
             const panels = document.querySelectorAll('.image-panel');
+            panels.style.display = 'none';
             panels.forEach(panel => {
                 panel.classList.toggle('hidden', hideImages);
             });
